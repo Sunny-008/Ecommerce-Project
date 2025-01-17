@@ -2,12 +2,19 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { FaCarSide, FaQuestion } from "react-icons/fa";
+import { addToCart } from "../redux/cartSlice";
+import { useDispatch } from "react-redux";
 // import { selectFilteredProducts } from "../redux/productSlice";
 
 const ProductDetail = () => {
   const { id } = useParams();
   const products = useSelector((state) => state.product.products);
   const [product, setProduct] = useState();
+  const dispatch = useDispatch();
+  const MdAddCard = (product) => {
+    dispatch(addToCart(product));
+    alert("Product added to cart in successfully");
+  };
 
   useEffect(() => {
     const foundProduct = products.find((item) => item.id === parseInt(id));
@@ -39,13 +46,16 @@ const ProductDetail = () => {
           </p>
 
           <div className="flex items-center gap-x-2 mb-4">
-            <input
+            {/* <input
               type="number"
               id="quantity"
               min="1"
               className="border p-1 w-16"
-            />
-            <button className="bg-red-600 hover:bg-red-800 text-white px-4 py-2">
+            /> */}
+            <button
+              className="bg-red-600 hover:bg-red-800 text-white px-4 py-2"
+              onClick={() => MdAddCard(product)}
+            >
               Add to cart
             </button>
           </div>
